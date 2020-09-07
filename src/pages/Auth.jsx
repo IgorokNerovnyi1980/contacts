@@ -1,10 +1,10 @@
 import React from 'react';
 import BaseLayout from '../components/BaseLayout';
-import StubText from '../components/StubText';
+import FormAuthorization from '../components/FormAuthorization';
 
 const Auth = () => (
   <BaseLayout>
-    <StubText text="auth page" />
+    <FormAuthorization />
   </BaseLayout>
 );
 export default Auth;

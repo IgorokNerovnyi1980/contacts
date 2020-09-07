@@ -13,6 +13,10 @@ const Wrapper = styled.header`
     background-color:${(p) => p.theme.headerBG};
     box-shadow:${(p) => p.theme.boxShadow};
 `;
+const Logo = styled.h3`
+    font-size:${(p) => p.theme.titleFS};
+    font-weight:600;
+`;
 
 const Navigation = styled.nav`
     min-width:5rem;
@@ -30,17 +34,16 @@ const LinkWrap = styled(Link)`
 const Header = () => {
   const { pathname } = useLocation();
   const isLogged = useSelector((store) => store.auth.isLogged);
-  console.log('isLogged', isLogged);
+
   return (
     <Wrapper>
-      <p>logo</p>
-
+      <Logo>logo</Logo>
       <Navigation>
         {
         pathname !== '/' && pathname !== '/home'
         && <LinkWrap to="/home">home page</LinkWrap>
         }
-        <LinkWrap to={isLogged ? '/profile' : '/autorization'}>{isLogged ? 'profile' : ' sign Up'}</LinkWrap>
+        <LinkWrap to={isLogged ? '/profile' : '/authorization'}>{isLogged ? 'profile' : ' sign In'}</LinkWrap>
       </Navigation>
     </Wrapper>
   );

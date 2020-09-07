@@ -20,7 +20,7 @@ const Routing = () => (
       component={HomePage}
     />
     <Route
-      path="/autorization"
+      path="/authorization"
       component={AuthPage}
     />
     <Route

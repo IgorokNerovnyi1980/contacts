@@ -63,7 +63,7 @@ const Warning = () => {
 
   return (
     <Transition
-      in={text}
+      in={Boolean(text)}
       timeout={400}
       onEnter={onListOpen}
       onExit={onListClose}
