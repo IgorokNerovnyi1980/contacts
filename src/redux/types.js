@@ -1,0 +1,8 @@
+const Type = {
+  SET_TEST: 'SET_TEST',
+  SHOW_WARNING: 'SHOW_WARNING',
+  REMOVE_WARNING: 'REMOVE_WARNING',
+  USER_AUTH: 'USER_AUTH',
+
+};
+export default Type;
