@@ -41,7 +41,11 @@ const Header = () => {
       <Navigation>
         {
         pathname !== '/' && pathname !== '/home'
-        && <LinkWrap to="/home">home page</LinkWrap>
+        && <LinkWrap to="/home">home</LinkWrap>
+        }
+        {
+        isLogged
+        && <LinkWrap to="/contacts">contacts</LinkWrap>
         }
         <LinkWrap to={isLogged ? '/profile' : '/authorization'}>{isLogged ? 'profile' : ' sign In'}</LinkWrap>
       </Navigation>

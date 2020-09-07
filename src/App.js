@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { useDispatch } from 'react-redux';
 import Routing from './Routing';
 import themes from './lib/themes';
 import Warning from './components/Warning';
@@ -57,13 +58,19 @@ const GlobalStyle = createGlobalStyle`
   }
 }
 `;
-
-const App = () => (
-  <ThemeProvider theme={themes.base}>
-    <GlobalStyle />
-    <Routing />
-    <Warning />
-  </ThemeProvider>
-);
+const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const isLogged = JSON.parse(localStorage.getItem('contacts'));
+    if (isLogged && isLogged.auth) dispatch({ type: 'USER_AUTH', auth: true });
+  }, [dispatch]);
+  return (
+    <ThemeProvider theme={themes.base}>
+      <GlobalStyle />
+      <Routing />
+      <Warning />
+    </ThemeProvider>
+  );
+};
 
 export default App;

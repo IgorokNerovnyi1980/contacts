@@ -7,6 +7,7 @@ import HomePage from './pages/Home';
 import NotFoundPage from './pages/NotFound';
 import AuthPage from './pages/Auth';
 import ProfilePage from './pages/Profile';
+import ContactsPage from './pages/Contacts';
 
 const Routing = () => (
   <Switch>
@@ -27,6 +28,11 @@ const Routing = () => (
       path="/profile"
       component={ProfilePage}
     />
+    <Route
+      path="/contacts"
+      component={ContactsPage}
+    />
+
     <Route component={NotFoundPage} />
   </Switch>
 );

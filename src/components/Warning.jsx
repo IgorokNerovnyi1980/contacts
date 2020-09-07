@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
     position: fixed;
-    top:1rem;
-    right:2rem;
+    top:3rem;
+    left:3rem;
     z-index:3;
     min-width:10rem;
     padding:1rem;

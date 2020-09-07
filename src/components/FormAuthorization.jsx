@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ReactComponent as Visibility } from '../assets/svg/visibility.svg';
 import { ReactComponent as Invisible } from '../assets/svg/invisible.svg';
 import { rePassword, reEmail } from '../lib/constants';
+import Button from './Button';
 
 const Wrapper = styled.form`
     position:relative;
@@ -32,13 +33,6 @@ const BtnWrap = styled.div`
     justify-content:space-between;
     align-items:center;
 `;
-const Button = styled.button`
-    width:${(p) => p.width};
-    padding:0.5rem 1rem;
-    border:1px solid${(p) => p.theme.secondaryBG};
-    border-radius:0.3rem;
-`;
-
 const ShowText = styled(Visibility)`
     position:absolute;
     right:1.5rem;
@@ -101,38 +95,50 @@ const FormAuthorization = () => {
       dispatch(
         { type: 'USER_AUTH', auth: true },
       );
+      const oldObj = JSON.parse(localStorage.getItem('contacts'));
+      if (oldObj) {
+        localStorage.setItem('contacts', JSON.stringify({ ...oldObj, auth: true }));
+      } else {
+        localStorage.setItem('contacts', JSON.stringify({ auth: true }));
+      }
+      history.push('/profile');
     }
   };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isLogged) {
+        history.push('/authorization');
+      }
+    }, 10);
+    return () => clearTimeout(timer);
+  }, [history, isLogged]);
   return (
-    isLogged
-      ? (<Redirect to="/profile" />)
-      : (
-        <Wrapper submit={handleSubmit}>
-          <Input
-            type="email"
-            name="email"
-            required
-            placeholder="email"
-            value={email}
-            onChange={handleChange}
-          />
-          <Input
-            type={isShow ? 'text' : 'password'}
-            name="password"
-            required
-            placeholder="8 simbols a-Z and 0-9 and ._-"
-            value={password}
-            onChange={handleChange}
-          />
-          {isShow
-            ? <ShowPassword onClick={() => toggler()} />
-            : <ShowText onClick={() => toggler()} /> }
-          <BtnWrap>
-            <Button type="submit" width="65%" onClick={handleSubmit}>save</Button>
-            <Button type="button" width="30%" onClick={() => toHome()}>cancel</Button>
-          </BtnWrap>
-        </Wrapper>
-      )
+
+    <Wrapper submit={handleSubmit}>
+      <Input
+        type="email"
+        name="email"
+        required
+        placeholder="email"
+        value={email}
+        onChange={handleChange}
+      />
+      <Input
+        type={isShow ? 'text' : 'password'}
+        name="password"
+        required
+        placeholder="8 simbols a-Z and 0-9 and ._-"
+        value={password}
+        onChange={handleChange}
+      />
+      {isShow
+        ? <ShowPassword onClick={() => toggler()} />
+        : <ShowText onClick={() => toggler()} /> }
+      <BtnWrap>
+        <Button label="save" type="submit" width="65%" fnClick={handleSubmit} />
+        <Button label="cancel" type="button" width="30%" fnClick={() => toHome()} />
+      </BtnWrap>
+    </Wrapper>
   );
 };
 

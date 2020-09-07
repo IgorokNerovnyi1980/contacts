@@ -1,27 +1,40 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-import StubText from '../components/StubText';
+import Button from '../components/Button';
 
 const Profile = () => {
   const isLogged = useSelector((store) => store.auth.isLogged);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (!isLogged) {
-      dispatch(
-        { type: 'SHOW_WARNING', message: 'this page only for autorized users. please connect', typeWarning: 'error' },
-      );
+  const history = useHistory();
+  const handleLogout = () => {
+    dispatch(
+      { type: 'SHOW_WARNING', message: 'you is logout', typeWarning: 'success' },
+    );
+    dispatch(
+      { type: 'USER_AUTH', auth: false },
+    );
+    const oldObj = JSON.parse(localStorage.getItem('contacts'));
+    if (oldObj) {
+      localStorage.setItem('contacts', JSON.stringify({ ...oldObj, auth: false }));
+    } else {
+      localStorage.setItem('contacts', JSON.stringify({ auth: true }));
     }
-  }, [isLogged, dispatch]);
+    history.push('/authorization');
+  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isLogged) {
+        history.push('/authorization');
+      }
+    }, 10);
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    isLogged
-      ? (
-        <BaseLayout>
-          <StubText text="pofile page" />
-        </BaseLayout>
-      )
-      : (<Redirect to="/authorization" />)
+    <BaseLayout>
+      <Button label="logout" fnClick={handleLogout} />
+    </BaseLayout>
   );
 };
 export default Profile;
