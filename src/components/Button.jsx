@@ -10,8 +10,9 @@ const Wrapper = styled.button`
 
 const Button = ({
   label = 'default', width = '6rem', type = 'button', fnClick = () => { },
+  disabled = false,
 }) => (
-  <Wrapper type={type} width={width} onClick={fnClick}>{label}</Wrapper>
+  <Wrapper type={type} width={width} onClick={fnClick} disabled={disabled}>{label}</Wrapper>
 );
 
 export default Button;

@@ -9,6 +9,8 @@ const Type = {
   CHAGE_PAGE: 'CHAGE_PAGE',
   TOTAL_PAGE: 'TOTAL_PAGE',
   VIEW_PAGE: 'VIEW_PAGE',
+  SET_ITEM: 'SET_ITEM',
+  SET_ROW: 'SET_ROW',
 
 };
 export default Type;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BaseLayout from '../components/BaseLayout';
-import StubText from '../components/StubText';
 import API from '../lib/api';
+import ContactsTable from '../components/ContactsTable';
 
 const Contacts = () => {
   const isLogged = useSelector((store) => store.auth.isLogged);
@@ -11,8 +11,6 @@ const Contacts = () => {
   const allQuantity = useSelector((store) => store.contacts.quantityContacts);
   const id = useSelector((store) => store.user.email);
   const page = useSelector((store) => store.contacts.page);
-  const perPage = useSelector((store) => store.contacts.perPage);
-  const totalPages = useSelector((store) => store.contacts.totalPages);
   const dispatch = useDispatch();
   const getContacts = async (numPage, quatityOfPage, userId) => {
     try {
@@ -43,11 +41,9 @@ const Contacts = () => {
     }
   }, [contacts]);// elsint-disable-line
 
-  console.log('viewData', viewData);
-
   return (
     <BaseLayout>
-      <StubText text="contacts page" />
+      {viewData.length > 0 && <ContactsTable dataArr={viewData} />}
     </BaseLayout>
   );
 };

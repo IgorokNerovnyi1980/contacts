@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Button from './Button';
 
 const Wrapper = styled.div`
@@ -53,29 +55,47 @@ const Nat = styled.p`
 const BtnWrap = styled.div`
     margin:0 auto;
 `;
-const UserProfile = ({ user = {}, isContact = false, fnClick = () => {} }) => (
-  isContact
-    ? (<p>contact</p>)
-    : (
-      <Wrapper>
-        <Avatar src={user.picture.large} alt={`${user.name.first} ${user.name.last}`} />
-        <Content>
-          <h2>
-            {`${user.name.title} ${user.name.first} ${user.name.last} `}
-            <span>{`${user.dob.age} years`}</span>
-          </h2>
-          <p>{user.email}</p>
-          <p>{`${user.location.street.name} ${user.location.street.number}`}</p>
-          <p>{`${user.location.city} ${user.location.country}`}</p>
-          <Nat>{user.nat}</Nat>
-          {!isContact && (
-          <BtnWrap>
-            <Button label="logout" fnClick={fnClick} />
-          </BtnWrap>
-          )}
-        </Content>
-      </Wrapper>
-    )
-);
+const UserProfile = ({ user = {}, isContact = false, fnClick = () => { } }) => {
+  const { id } = useParams();
+  const contact = useSelector((store) => store.contacts.item);
+  return (
+    id && contact
+      ? (
+        <Wrapper>
+          <Avatar src={contact.picture.large} alt={`${contact.name.first} ${contact.name.last}`} />
+          <Content>
+            <h2>
+              {`${contact.name.title} ${contact.name.first} ${contact.name.last} `}
+              <span>{`${contact.dob.age} years`}</span>
+            </h2>
+            <p>{contact.email}</p>
+            <p>{`${contact.location.street.name} ${contact.location.street.number}`}</p>
+            <p>{`${contact.location.city} ${contact.location.country}`}</p>
+            <Nat>{contact.nat}</Nat>
+          </Content>
+        </Wrapper>
+      )
+      : (
+        <Wrapper>
+          <Avatar src={user.picture.large} alt={`${user.name.first} ${user.name.last}`} />
+          <Content>
+            <h2>
+              {`${user.name.title} ${user.name.first} ${user.name.last} `}
+              <span>{`${user.dob.age} years`}</span>
+            </h2>
+            <p>{user.email}</p>
+            <p>{`${user.location.street.name} ${user.location.street.number}`}</p>
+            <p>{`${user.location.city} ${user.location.country}`}</p>
+            <Nat>{user.nat}</Nat>
+            {!isContact && (
+            <BtnWrap>
+              <Button label="logout" fnClick={fnClick} />
+            </BtnWrap>
+            )}
+          </Content>
+        </Wrapper>
+      )
+  );
+};
 
 export default UserProfile;

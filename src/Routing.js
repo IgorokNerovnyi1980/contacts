@@ -29,8 +29,14 @@ const Routing = () => (
       component={ProfilePage}
     />
     <Route
+      exact
       path="/contacts"
       component={ContactsPage}
+    />
+    <Route
+      exact
+      path="/contacts/:id"
+      component={ProfilePage}
     />
 
     <Route component={NotFoundPage} />

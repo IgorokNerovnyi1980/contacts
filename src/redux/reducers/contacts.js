@@ -5,9 +5,10 @@ const initialState = {
   item: null,
   contactView: [],
   quantityContacts: 10,
-  page: 6,
+  page: 1,
   perPage: 6,
   totalPages: 0,
+  isRow: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,8 +45,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         contactView: state.all.slice(
-          ((page * perPage) - perPage), (totalPages === page ? state.all.length + 1 : (page * perPage)),
+          ((page * perPage) - perPage), (totalPages === page ? state.all.length + 1 : (page * perPage)),//eslint-disable-line
         ),
+      };
+    case Type.SET_ITEM:
+      return {
+        ...state,
+        item: state.all.find((user) => user.phone === action.id),
+      };
+    case Type.SET_ROW:
+      return {
+        ...state,
+        isRow: action.bool,
       };
     default:
       return state;
