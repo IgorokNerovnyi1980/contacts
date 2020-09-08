@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
-import Button from '../components/Button';
+import UserProfile from '../components/UserProfile';
 import API from '../lib/api';
 
 const Profile = () => {
@@ -40,7 +40,7 @@ const Profile = () => {
     } else {
       localStorage.setItem('contacts', JSON.stringify({ auth: true }));
     }
-    history.push('/authorization');
+    history.push('/home');
   };
   useEffect(() => {
     if (!isLogged) history.push('/authorization');
@@ -48,7 +48,7 @@ const Profile = () => {
   }, [isLogged]);
   return (
     <BaseLayout>
-      <Button label="logout" fnClick={handleLogout} />
+      {profile && <UserProfile user={profile} fnClick={handleLogout} />}
     </BaseLayout>
   );
 };
