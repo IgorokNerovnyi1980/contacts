@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { ReactComponent as Visibility } from '../assets/svg/visibility.svg';
 import { ReactComponent as Invisible } from '../assets/svg/invisible.svg';
 import { rePassword, reEmail } from '../lib/constants';
+import API from '../lib/api';
 import Button from './Button';
 
 const Wrapper = styled.form`
@@ -55,6 +56,22 @@ const FormAuthorization = () => {
   const [isShow, setIsShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const getUserProfile = async ({ id }) => {
+    try {
+      const {
+        data, status,
+      } = await API.get(`?seed=${id}`);
+      if (status === 200) {
+        dispatch(
+          { type: 'USER_PROFILE', payload: data.results[0] },
+        );
+      }
+    } catch (err) {
+      dispatch(
+        { type: 'SHOW_WARNING', message: err.message, typeWarning: 'error' },
+      );
+    }
+  };
   const toHome = () => {
     history.push('/home');
   };
@@ -96,21 +113,22 @@ const FormAuthorization = () => {
         { type: 'USER_AUTH', auth: true },
       );
       const oldObj = JSON.parse(localStorage.getItem('contacts'));
+      const randomNum = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
       if (oldObj) {
-        localStorage.setItem('contacts', JSON.stringify({ ...oldObj, auth: true }));
+        localStorage.setItem('contacts', JSON.stringify({
+          ...oldObj, auth: true, email, quantity: randomNum,
+        }));
       } else {
-        localStorage.setItem('contacts', JSON.stringify({ auth: true }));
+        localStorage.setItem('contacts', JSON.stringify({ auth: true, email, quantity: randomNum }));
       }
+      getUserProfile(email);
       history.push('/profile');
     }
   };
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!isLogged) {
-        history.push('/authorization');
-      }
-    }, 10);
-    return () => clearTimeout(timer);
+    if (!isLogged) {
+      history.push('/authorization');
+    }
   }, [history, isLogged]);
   return (
 

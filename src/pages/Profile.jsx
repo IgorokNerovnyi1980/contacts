@@ -3,11 +3,30 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import BaseLayout from '../components/BaseLayout';
 import Button from '../components/Button';
+import API from '../lib/api';
 
 const Profile = () => {
   const isLogged = useSelector((store) => store.auth.isLogged);
+  const profile = useSelector((store) => store.user.profile);
+  const seed = useSelector((store) => store.user.email);
   const dispatch = useDispatch();
   const history = useHistory();
+  const getUserProfile = async ({ id }) => {
+    try {
+      const {
+        data, status,
+      } = await API.get(`?seed=${id}`);
+      if (status === 200) {
+        dispatch(
+          { type: 'USER_PROFILE', payload: data.results[0] },
+        );
+      }
+    } catch (err) {
+      dispatch(
+        { type: 'SHOW_WARNING', message: err.message, typeWarning: 'error' },
+      );
+    }
+  };
   const handleLogout = () => {
     dispatch(
       { type: 'SHOW_WARNING', message: 'you is logout', typeWarning: 'success' },
@@ -24,13 +43,9 @@ const Profile = () => {
     history.push('/authorization');
   };
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!isLogged) {
-        history.push('/authorization');
-      }
-    }, 10);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!isLogged) history.push('/authorization');
+    if (isLogged && !profile) getUserProfile(seed);
+  }, [isLogged]);
   return (
     <BaseLayout>
       <Button label="logout" fnClick={handleLogout} />

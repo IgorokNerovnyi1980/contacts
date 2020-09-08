@@ -7,7 +7,7 @@ import API from '../lib/api';
 const Contacts = () => {
   const isLogged = useSelector((store) => store.auth.isLogged);
   const dispatch = useDispatch();
-  const testRequest = async () => {
+  const getContacts = async () => {
     try {
       const {
         data, status,
@@ -22,12 +22,9 @@ const Contacts = () => {
     }
   };
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isLogged) {
-        testRequest();
-      }
-    }, 10);
-    return () => clearTimeout(timer);
+    if (isLogged) {
+      getContacts();
+    }
   }, [isLogged]);// elsint-disable-line
   return (
     <BaseLayout>

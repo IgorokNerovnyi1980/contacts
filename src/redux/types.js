@@ -3,6 +3,8 @@ const Type = {
   SHOW_WARNING: 'SHOW_WARNING',
   REMOVE_WARNING: 'REMOVE_WARNING',
   USER_AUTH: 'USER_AUTH',
+  USER_DATA: 'USER_DATA',
+  USER_PROFILE: 'USER_PROFILE',
 
 };
 export default Type;

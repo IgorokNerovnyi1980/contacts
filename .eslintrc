@@ -23,8 +23,8 @@
       "jest": true
     },
     "rules": {
-      "react/prop-types":[0],
-      "no-control-regex":[0],
+      "react/prop-types":0,
+      "no-control-regex":0,
       "no-console": 1,
       "linebreak-style": ["error", "unix"],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+import Footer from './Footer';
 import backDropImg from '../assets/img/backdrop.jpg';
 
 const Wrapper = styled.header`
@@ -17,7 +18,7 @@ const Wrapper = styled.header`
 const Content = styled.div`
     width:100%;
     height:100%;
-    min-height:calc(100vh - 6rem);
+    min-height:calc(100vh - 12rem);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -29,6 +30,7 @@ const BaseLayout = ({ children }) => (
     <Content>
       {children}
     </Content>
+    <Footer />
   </Wrapper>
 );
 
