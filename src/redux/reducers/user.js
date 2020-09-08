@@ -2,7 +2,6 @@ import Type from '../types';
 
 const initialState = {
   email: '',
-  quantityContacts: 10,
   profile: null,
 };
 
@@ -12,7 +11,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         email: action.email,
-        quantityContacts: action.quantity,
       };
     case Type.USER_PROFILE:
       return {
