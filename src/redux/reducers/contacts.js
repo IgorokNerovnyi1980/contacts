@@ -22,7 +22,19 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         quantityContacts: action.quantity,
+        page: 1,
       };
+    case Type.USER_AUTH:
+      return {
+        ...state,
+        quantityContacts: action.quantity,
+      };
+    case Type.USER_LOGOUT:
+      return {
+        ...state,
+        quantityContacts: 0,
+      };
+
     case Type.TOTAL_PAGE:
       return {
         ...state,
@@ -72,18 +84,21 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentFilter: 'male',
         filtredAll: state.all.filter((user) => user.gender === 'male'),
+        page: 1,
       };
     case Type.SORT_FEMALE:
       return {
         ...state,
         currentFilter: 'female',
         filtredAll: state.all.filter((user) => user.gender === 'female'),
+        page: 1,
       };
     case Type.RESET_FILTER:
       return {
         ...state,
         currentFilter: '',
         filtredAll: [],
+        page: 1,
       };
 
     default:

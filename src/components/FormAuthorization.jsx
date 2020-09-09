@@ -56,7 +56,7 @@ const FormAuthorization = () => {
   const [isShow, setIsShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const getUserProfile = async ({ id }) => {
+  const getUserProfile = async (id) => {
     try {
       const {
         data, status,
@@ -106,14 +106,17 @@ const FormAuthorization = () => {
       setPassword('');
     }
     if (validPass && validEmail) {
+      const randomNum = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
       dispatch(
         { type: 'SHOW_WARNING', message: 'you is athorized', typeWarning: 'success' },
       );
       dispatch(
-        { type: 'USER_AUTH', auth: true },
+        {
+          type: 'USER_AUTH', auth: true, quantity: randomNum, email,
+        },
       );
       const oldObj = JSON.parse(localStorage.getItem('contacts'));
-      const randomNum = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+
       if (oldObj) {
         localStorage.setItem('contacts', JSON.stringify({
           ...oldObj, auth: true, email, quantity: randomNum,

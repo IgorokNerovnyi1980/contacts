@@ -12,11 +12,11 @@ const Contacts = () => {
   const id = useSelector((store) => store.user.email);
   const page = useSelector((store) => store.contacts.page);
   const dispatch = useDispatch();
-  const getContacts = async (numPage, quatityOfPage, userId) => {
+  const getContacts = async (numPage, quantityOfPage, userId) => {
     try {
       const {
         data, status,
-      } = await API.get(`?page=${numPage}&results=${quatityOfPage}&seed=${userId}`);
+      } = await API.get(`?page=${numPage}&results=${quantityOfPage}&seed=${userId}`);
       if (status === 200) {
         dispatch(
           { type: 'GET_CONTACTS', payload: data.results },

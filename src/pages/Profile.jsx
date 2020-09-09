@@ -11,7 +11,7 @@ const Profile = () => {
   const seed = useSelector((store) => store.user.email);
   const dispatch = useDispatch();
   const history = useHistory();
-  const getUserProfile = async ({ id }) => {
+  const getUserProfile = async (id) => {
     try {
       const {
         data, status,
@@ -29,16 +29,19 @@ const Profile = () => {
   };
   const handleLogout = () => {
     dispatch(
-      { type: 'SHOW_WARNING', message: 'you is logout', typeWarning: 'success' },
+      { type: 'USER_LOGOUT' },
     );
     dispatch(
-      { type: 'USER_AUTH', auth: false },
+      { type: 'SHOW_WARNING', message: 'you is logout', typeWarning: 'success' },
     );
+
     const oldObj = JSON.parse(localStorage.getItem('contacts'));
     if (oldObj) {
-      localStorage.setItem('contacts', JSON.stringify({ ...oldObj, auth: false }));
+      localStorage.setItem('contacts', JSON.stringify({
+        ...oldObj, auth: false, email: '', quantity: 0,
+      }));
     } else {
-      localStorage.setItem('contacts', JSON.stringify({ auth: true }));
+      localStorage.setItem('contacts', JSON.stringify({ auth: false }));
     }
     history.push('/home');
   };
