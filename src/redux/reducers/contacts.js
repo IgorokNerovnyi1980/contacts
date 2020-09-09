@@ -3,12 +3,14 @@ import Type from '../types';
 const initialState = {
   all: [],
   item: null,
+  filtredAll: [],
   contactView: [],
   quantityContacts: 10,
   page: 1,
   perPage: 6,
   totalPages: 0,
-  isRow: false,
+  isRow: true,
+  currentFilter: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,6 +50,13 @@ const reducer = (state = initialState, action) => {
           ((page * perPage) - perPage), (totalPages === page ? state.all.length + 1 : (page * perPage)),//eslint-disable-line
         ),
       };
+    case Type.FILTRED_VIEW:
+      return {
+        ...state,
+        contactView: state.filtredAll.slice(
+            ((page * perPage) - perPage), (totalPages === page ? state.all.length + 1 : (page * perPage)),//eslint-disable-line
+        ),
+      };
     case Type.SET_ITEM:
       return {
         ...state,
@@ -58,6 +67,25 @@ const reducer = (state = initialState, action) => {
         ...state,
         isRow: action.bool,
       };
+    case Type.SORT_MALE:
+      return {
+        ...state,
+        currentFilter: 'male',
+        filtredAll: state.all.filter((user) => user.gender === 'male'),
+      };
+    case Type.SORT_FEMALE:
+      return {
+        ...state,
+        currentFilter: 'female',
+        filtredAll: state.all.filter((user) => user.gender === 'female'),
+      };
+    case Type.RESET_FILTER:
+      return {
+        ...state,
+        currentFilter: '',
+        filtredAll: [],
+      };
+
     default:
       return state;
   }
